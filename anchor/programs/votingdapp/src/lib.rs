@@ -16,7 +16,6 @@ pub mod votingdapp {
         description: String,
         poll_start: u64,
         poll_end: u64,
-        candidate_amount: u64,
       ) -> Result<()> { 
         let poll = &mut ctx.accounts.poll;
         poll.poll_id = poll_id;

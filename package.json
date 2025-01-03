@@ -7,6 +7,7 @@
     "anchor-build": "cd anchor && anchor build",
     "anchor-localnet": "cd anchor && anchor localnet",
     "anchor-test": "cd anchor && anchor test",
+    "anchor-test2": "cd anchor && anchor test --skip-local-validator --skip-deploy",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

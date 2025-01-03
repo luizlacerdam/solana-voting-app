@@ -64,10 +64,6 @@ export type Votingdapp = {
         {
           "name": "pollEnd",
           "type": "u64"
-        },
-        {
-          "name": "candidateAmount",
-          "type": "u64"
         }
       ]
     }

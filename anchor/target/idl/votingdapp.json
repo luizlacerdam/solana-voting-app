@@ -58,10 +58,6 @@
         {
           "name": "poll_end",
           "type": "u64"
-        },
-        {
-          "name": "candidate_amount",
-          "type": "u64"
         }
       ]
     }
