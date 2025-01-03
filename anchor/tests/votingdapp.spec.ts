@@ -9,15 +9,20 @@ const IDL = require('../target/idl/votingdapp.json')
 describe('Testing Voting App', () => {
 
   const votingAddress = new PublicKey("coUnmi3oBUtwtd9fjeAvSsJssXh5A5xyPbhpewyzRVF");
+  let context;
+  let provider;
+  let votingProgram: Program<Votingdapp>;
 
-  it('Initialize Poll', async () => {
-    const context = await startAnchor("", [{name: "votingdapp", programId: votingAddress}], [])
-    const provider = new BankrunProvider(context);
+  beforeAll(async() => {
+     context = await startAnchor("", [{name: "votingdapp", programId: votingAddress}], [])
+     provider = new BankrunProvider(context);
    
-    const votingProgram = new Program<Votingdapp> (
+     votingProgram = new Program<Votingdapp> (
       IDL,
       provider
     )
+  })
+  it('Initialize Poll', async () => {
 
     await votingProgram.methods.initializePoll(
       new anchor.BN(1),
@@ -44,5 +49,11 @@ describe('Testing Voting App', () => {
 
   }, 30000)
 
+  it('Initialize candidate', async () => {
+    
+  }, 30000)
   
+  it('Vote Test', async () => {
+    
+  }, 30000)
 })
