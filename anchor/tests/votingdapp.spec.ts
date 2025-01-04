@@ -3,6 +3,7 @@ import {Program} from '@coral-xyz/anchor'
 import {Keypair, PublicKey} from '@solana/web3.js'
 import {Votingdapp} from '../target/types/votingdapp'
 import { BankrunProvider, startAnchor } from 'anchor-bankrun'
+import exp from 'constants'
 
 const IDL = require('../target/idl/votingdapp.json')
 
@@ -50,10 +51,52 @@ describe('Testing Voting App', () => {
   }, 30000)
 
   it('Initialize candidate', async () => {
+    await votingProgram.methods.initializeCandidate(
+      "Smooth",
+      new anchor.BN(1),
+    ).rpc();
+    await votingProgram.methods.initializeCandidate(
+      "Crunchy",
+      new anchor.BN(1),
+    ).rpc();
+
+    const [crunchyAddress] = PublicKey.findProgramAddressSync(
+      [new anchor.BN(1).toArrayLike(Buffer, 'le', 8) ,Buffer.from("Crunchy")],
+      votingAddress,
+    )
+
+    const [smoothAddress] = PublicKey.findProgramAddressSync(
+      [new anchor.BN(1).toArrayLike(Buffer, 'le', 8) ,Buffer.from("Smooth")],
+      votingAddress,
+    )
+
+    const smooth = await votingProgram.account.candidate.fetch(smoothAddress);
+    const crunchy = await votingProgram.account.candidate.fetch(crunchyAddress);
+
+    expect(smooth.candidateName).toEqual("Smooth");
+    expect(crunchy.candidateName).toEqual("Crunchy");
+
+    expect(smooth.candidateVotes.toNumber()).toEqual(0);
+    expect(crunchy.candidateVotes.toNumber()).toEqual(0);
+
+    console.log(crunchy);
+    console.log(smooth);
     
+
   }, 30000)
   
   it('Vote Test', async () => {
-    
+    await votingProgram.methods.vote("Smooth", new anchor.BN(1)).rpc();
+
+    const [smoothAddress] = PublicKey.findProgramAddressSync(
+      [new anchor.BN(1).toArrayLike(Buffer, 'le', 8) ,Buffer.from("Smooth")],
+      votingAddress,
+    )
+
+    const smooth = await votingProgram.account.candidate.fetch(smoothAddress);
+
+    expect(smooth.candidateName).toEqual("Smooth");
+    expect(smooth.candidateVotes.toNumber()).toEqual(1);
+
   }, 30000)
 })
