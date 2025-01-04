@@ -9,19 +9,21 @@ const IDL = require('../target/idl/votingdapp.json')
 
 describe('Testing Voting App', () => {
 
-  const votingAddress = new PublicKey("coUnmi3oBUtwtd9fjeAvSsJssXh5A5xyPbhpewyzRVF");
+  const votingAddress = new PublicKey("4tnTWSczskE1sDxU8ACMrduHw3AsCSz4GQ1mgDGLj45h");
   let context;
-  let provider;
-  let votingProgram: Program<Votingdapp>;
+  // let provider;
+  anchor.setProvider(anchor.AnchorProvider.env()); // set the provider to the env
+  let votingProgram: Program<Votingdapp> = anchor.workspace.Votingdapp;
 
+  // locally comment this out
   beforeAll(async() => {
-     context = await startAnchor("", [{name: "votingdapp", programId: votingAddress}], [])
-     provider = new BankrunProvider(context);
+    //  context = await startAnchor("", [{name: "votingdapp", programId: votingAddress}], [])
+    //  provider = new BankrunProvider(context);
    
-     votingProgram = new Program<Votingdapp> (
-      IDL,
-      provider
-    )
+    //  votingProgram = new Program<Votingdapp> (
+    //   IDL,
+    //   provider
+    // )
   })
   it('Initialize Poll', async () => {
 
